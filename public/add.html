@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title> 🔥 Hot Restaurant </title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1> 🔥 Hot Restaurant</h1>
+        <h3>Make Reservations!</h3>
+        <hr />
+        <a href="/">
+          <button class="btn btn-danger btn-lg">
+            <span class="fa fa-eye"></span> View Tables
+          </button>
+        </a>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3><strong>Add Reservation</strong></h3>
+            </div>
+            <div class="card-body">
+              <form method="POST" role="form">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" />
+                </div>
+
+                <div class="form-group">
+                  <label for="role">Email</label>
+                  <input type="text" class="form-control" id="email" />
+                </div>
+
+                <div class="form-group">
+                  <label for="age">Phone Number</label>
+                  <input type="text" class="form-control" id="phone" />
+                </div>
+
+                <div class="form-group">
+                  <label for="force-points">Number of People</label>
+                  <input type="text" class="form-control" id="number" />
+                </div>
+              </form>
+              <br />
+              <div class="text-right">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-md"
+                  id="add-btn"
+                >
+                  <span class="fa fa-fire"></span> Reserve
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      
+      const addBtn = document.getElementById('add-btn');
+      
+      // Question: What is "e" short for?
+      addBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Question: What does this code do?
+        let charName = document.getElementById('name').value.trim();
+        let charEmail = document.getElementById('email').value.trim();
+        let charPhone = document.getElementById('phone').value.trim();
+        let charNumber = document.getElementById('number').value.trim();
+        
+        let newTable = {
+          name: charName,
+          email: charEmail,
+          phone: parseInt(charPhone),
+          number: parseInt(charNumber),
+        };
+
+        // Question: What does this code do??
+        fetch('/api/tables', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newTable),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('add.html', data);
+            alert(`Adding table: ${data.name}`);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      });
+    </script>
+  </body>
+</html>
