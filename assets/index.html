@@ -1,25 +1,70 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Restaurant</title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Restaurant</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.3/flatly/bootstrap.min.css" />
-</head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1> 🔥 Hot Restaurant</h1>
+        <h3></h3>
+        <hr />
+        <a href="/api/tables">
+          <button class="btn btn-danger btn-lg">
+            <span class="fa fa-plus"></span> View Tables
+          </button>
+        </a>
+        <a href="/api/waitingList">
+          <button class="btn btn-danger btn-lg">
+            <span class="fa fa-eye"></span> Make Reservation
+          </button>
+        </a>
+      </div>
 
-<body>
-  <nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">Restaurant
-    </a>
-  </nav>
-  <div class="container">
-    <div style="margin-top: 80px;" class="jumbotron text-center">
-      
     </div>
-  </div>
-  <script src="/assets/js/index.js"></script>
-</body>
 
+    <script type="text/javascript">
+      searchBtn.addEventListener('click', () => {
+        let searchedCharacter = document
+          .getElementById('character-search')
+          .value.trim();
+
+        // Using a RegEx Pattern to remove spaces from searchedCharacter
+        // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
+        searchedCharacter = searchedCharacter.replace(/\s+/g, '').toLowerCase();
+
+        fetch(`/api/characters/${searchedCharacter}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            const { name, role, age, forcePoints } = data;
+
+            if (data) {
+              statsEl.setAttribute('style', 'display: inline');
+              nameEl.textContent = name;
+              roleEl.textContent = role;
+              ageEl.textContent = age;
+              fpEl.textContent = forcePoints;
+            } else {
+              nameEl.textContent =
+                'The force is not strong with this one. Your character was not found.';
+                statsEl.setAttribute('style', 'display: none');
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      });
+    </script>
+  </body>
 </html>

@@ -4,11 +4,16 @@ const app = express()
 const port = process.env.PORT || 3000;
 
 const tables = [];
-const waitList = [];
+const waitingList = [];
 
 // server static files 
 app.use(express.static('public'));
 
+app.get('/index', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+
+app.get('/', (req,res) =>{
+    console.log("It works!")
+})
 // GET /api/tables (all talbes)
 app.get('/api/tables', (req, res) =>{
     res.json({'tables': 'tables'})
@@ -28,7 +33,7 @@ app.post('/api/tables', (req, res) => {
     characters.push(newTable);
     res.json(newTable);
   });
-  
+
 app.listen(port, () =>{
     console.log(`Example app listening at http://localhost:${port}`)
 })
